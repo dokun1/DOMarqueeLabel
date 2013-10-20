@@ -17,7 +17,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    _label = [[DOMarqueeLabel alloc] initWithText:@"This is a testing message!" scrollBehavior:DOMarqueeScrollFromRightToLeft frame:CGRectMake(10, 200, 200, 50) andCustomFont:[UIFont systemFontOfSize:15.0f]];
+    [self.view addSubview:_label];
+    
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning

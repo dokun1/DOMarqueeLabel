@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DOMarqueeLabel.h"
 
-@interface DOMarqueeLabelViewController : UIViewController
+@interface DOMarqueeLabelViewController : UIViewController {
+    
+    DOMarqueeLabel *_label;
+    
+}
 
 @end
