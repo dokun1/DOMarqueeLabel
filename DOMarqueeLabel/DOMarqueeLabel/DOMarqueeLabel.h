@@ -20,8 +20,9 @@ ScrollBehavior;
     ScrollBehavior _scrollBehavior;
     UIFont *_customFont;
     CGSize _calculatedLabelSize;
+    double _scrollDuration;
 }
 
--(id)initWithText:(NSString*)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame andCustomFont:(UIFont*)customFont;;
+-(id)initWithText:(NSString*)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame customFont:(UIFont*)customFont andScrollDuration:(double)scrollDuration;
 
 @end

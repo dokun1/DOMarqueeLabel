@@ -11,8 +11,6 @@
 
 @interface DOMarqueeLabelViewController : UIViewController {
     
-    DOMarqueeLabel *_label;
-    
 }
 
 @end

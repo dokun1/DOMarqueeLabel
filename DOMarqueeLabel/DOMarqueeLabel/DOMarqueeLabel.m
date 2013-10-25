@@ -10,11 +10,15 @@
 
 @implementation DOMarqueeLabel
 
--(id)initWithText:(NSString *)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame andCustomFont:(UIFont *)customFont{
+-(id)initWithText:(NSString *)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame customFont:(UIFont *)customFont andScrollDuration:(double)scrollDuration{
     if (self = [super initWithFrame:frame]) {
         _textLabel = [[NSString alloc] initWithString:text];
         _scrollBehavior = scrollBehavior;
         _customFont = customFont;
+        _scrollDuration = scrollDuration;
+        
+        self.layer.borderColor = [[UIColor blackColor] CGColor];
+        self.layer.borderWidth = 2.0f;
         
         UILabel *testLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 10, 10)];
         testLabel.text = _textLabel;
@@ -31,7 +35,7 @@
         self.contentSize = newContentSize;
         _calculatedLabelSize = testLabel.frame.size;
         [self scrollingAnimationMethod];
-        [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(scrollingAnimationMethod) userInfo:nil repeats:YES];
+        [NSTimer scheduledTimerWithTimeInterval:_scrollDuration + 0.1 target:self selector:@selector(scrollingAnimationMethod) userInfo:nil repeats:YES];
     }
     return self;
 }
@@ -43,28 +47,65 @@
     
     switch (_scrollBehavior) {
         case DOMarqueeScrollFromRightToLeft:{
-            self.contentOffset = CGPointMake(self.contentSize.width/3, 0);
-            label.frame = CGRectMake((self.contentSize.width * 2)/3, 5, _calculatedLabelSize.width, _calculatedLabelSize.height);
+            self.contentOffset = CGPointMake(self.contentSize.width/6, 0);
+            label.frame = CGRectMake((self.contentSize.width * 2)/3, 0, _calculatedLabelSize.width, _calculatedLabelSize.height);
             [self addSubview:label];
-            [UIView animateWithDuration:4.0
+            [UIView animateWithDuration:_scrollDuration
                                   delay:0.0
                                 options:UIViewAnimationOptionCurveLinear
                              animations:^{
-                                 label.frame = CGRectMake(0, 5, _calculatedLabelSize.width, _calculatedLabelSize.height);
-                             } completion:nil];
+                                 self.contentOffset = CGPointMake(self.contentSize.width, 0);
+                             } completion:^(BOOL finished) {
+                                 [label removeFromSuperview];
+                             }];
             break;
         }
-        case DOMarqueeScrollDownThenLeft:
-            NSLog(@"not yet");
+        case DOMarqueeScrollDownThenLeft:{
+            self.contentOffset = CGPointMake(((self.contentSize.width * 2) / 3) - 5, self.contentSize.height/2);
+            label.frame = CGRectMake((self.contentSize.width * 2)/3, 0, _calculatedLabelSize.width, _calculatedLabelSize.height);
+            [self addSubview:label];
+            [UIView animateWithDuration:_scrollDuration/4
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 self.contentOffset = CGPointMake(self.contentOffset.x, 0);
+                             } completion:^(BOOL finished) {
+                                 [UIView animateWithDuration:((_scrollDuration/4)*3)-0.5
+                                                       delay:0.5
+                                                     options:UIViewAnimationOptionCurveLinear
+                                                  animations:^{
+                                                      self.contentOffset = CGPointMake(self.contentSize.width * 1.2, self.contentOffset.y);
+                                                  } completion:^(BOOL finished) {
+                                                      [label removeFromSuperview];
+                                                  }];
+                             }];
             break;
-        case DOMarqueeScrollUpThenLeft:
-            NSLog(@"not yet either");
+        }
+        case DOMarqueeScrollUpThenLeft:{
+            self.contentOffset = CGPointMake(((self.contentSize.width * 2) / 3) - 5, 0);
+            label.frame = CGRectMake((self.contentSize.width * 2)/3, self.contentSize.height/2, _calculatedLabelSize.width, _calculatedLabelSize.height);
+            [self addSubview:label];
+            [UIView animateWithDuration:_scrollDuration/4
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveLinear
+                             animations:^{
+                                 self.contentOffset = CGPointMake(self.contentOffset.x, self.contentSize.height / 2);
+                             } completion:^(BOOL finished) {
+                                 [UIView animateWithDuration:((_scrollDuration/4)*3)-0.5
+                                                       delay:0.5
+                                                     options:UIViewAnimationOptionCurveLinear
+                                                  animations:^{
+                                                      self.contentOffset = CGPointMake(self.contentSize.width * 1.2, self.contentOffset.y);
+                                                  } completion:^(BOOL finished) {
+                                                      [label removeFromSuperview];
+                                                  }];
+                             }];
             break;
+        }
         default:
+            NSLog(@"unrecognized scroll behavior");
             break;
     }
-    [label removeFromSuperview];
-    label = nil;
 }
 
 @end
