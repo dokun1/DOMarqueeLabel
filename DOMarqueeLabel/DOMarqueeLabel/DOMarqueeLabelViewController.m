@@ -28,7 +28,7 @@
     [self.view addSubview:label1];
     DOMarqueeLabel *label2 = [[DOMarqueeLabel alloc] initWithText:@"This is another test with a really long message!" scrollBehavior:DOMarqueeScrollUpThenLeft frame:CGRectMake(10, 140, 200, 20) customFont:[UIFont systemFontOfSize:15.0f] andScrollDuration:10.5];
     [self.view addSubview:label2];
-    DOMarqueeLabel *label3 = [[DOMarqueeLabel alloc] initWithText:@"This is the test message that comes down, then goes left!" scrollBehavior:DOMarqueeScrollDownThenLeft frame:CGRectMake(10, 180, 250, 20) customFont:[UIFont systemFontOfSize:15.0f] andScrollDuration:7.3];
+    DOMarqueeLabel *label3 = [[DOMarqueeLabel alloc] initWithText:@"This is the test message that comes down, then goes left! Imagine all of the things you can do with an amount of text like this." scrollBehavior:DOMarqueeScrollDownThenLeft frame:CGRectMake(10, 180, 250, 20) customFont:[UIFont systemFontOfSize:15.0f] andScrollDuration:7.3];
     [self.view addSubview:label3];
     
     
