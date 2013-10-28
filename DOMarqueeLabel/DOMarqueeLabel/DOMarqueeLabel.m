@@ -54,7 +54,7 @@
                                   delay:0.0
                                 options:UIViewAnimationOptionCurveLinear
                              animations:^{
-                                 self.contentOffset = CGPointMake(self.contentSize.width, 0);
+                                 self.contentOffset = CGPointMake(self.contentSize.width * 1.2, 0);
                              } completion:^(BOOL finished) {
                                  [label removeFromSuperview];
                              }];
