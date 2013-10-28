@@ -48,7 +48,7 @@
     switch (_scrollBehavior) {
         case DOMarqueeScrollFromRightToLeft:{
             self.contentOffset = CGPointMake(self.contentSize.width/6, 0);
-            label.frame = CGRectMake((self.contentSize.width * 2)/3, 0, _calculatedLabelSize.width, _calculatedLabelSize.height);
+            label.frame = CGRectMake((self.contentSize.width * 2.25)/3, 0, _calculatedLabelSize.width, _calculatedLabelSize.height);
             [self addSubview:label];
             [UIView animateWithDuration:_scrollDuration
                                   delay:0.0
