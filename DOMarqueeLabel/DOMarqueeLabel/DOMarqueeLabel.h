@@ -11,7 +11,8 @@
 typedef enum ScrollBehavior {
     DOMarqueeScrollFromRightToLeft,     //Label will appear from right side of label and scroll continuously
     DOMarqueeScrollDownThenLeft,        //Label will appear from top, then scroll left
-    DOMarqueeScrollUpThenLeft           //Label will appear from bottom, then scroll left
+    DOMarqueeScrollUpThenLeft,           //Label will appear from bottom, then scroll left
+    DOMarqueeScrollNone
 }
 ScrollBehavior;
 
@@ -21,8 +22,9 @@ ScrollBehavior;
     UIFont *_customFont;
     CGSize _calculatedLabelSize;
     double _scrollDuration;
+    UIColor *_textColor;
 }
 
--(id)initWithText:(NSString*)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame customFont:(UIFont*)customFont andScrollDuration:(double)scrollDuration;
+-(id)initWithText:(NSString*)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame customFont:(UIFont*)customFont ScrollDuration:(double)scrollDuration textColor:(UIColor *)color;
 
 @end
