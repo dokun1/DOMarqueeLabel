@@ -10,15 +10,15 @@
 
 @implementation DOMarqueeLabel
 
--(id)initWithText:(NSString *)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame customFont:(UIFont *)customFont andScrollDuration:(double)scrollDuration{
+-(id)initWithText:(NSString*)text scrollBehavior:(ScrollBehavior)scrollBehavior frame:(CGRect)frame customFont:(UIFont*)customFont ScrollDuration:(double)scrollDuration textColor:(UIColor *)color{
     if (self = [super initWithFrame:frame]) {
         _textLabel = [[NSString alloc] initWithString:text];
         _scrollBehavior = scrollBehavior;
         _customFont = customFont;
         _scrollDuration = scrollDuration;
+        _textColor = color;
         
-        self.layer.borderColor = [[UIColor blackColor] CGColor];
-        self.layer.borderWidth = 2.0f;
+        self.backgroundColor = [UIColor clearColor];
         
         UILabel *testLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, 10, 10)];
         testLabel.text = _textLabel;
@@ -35,7 +35,10 @@
         self.contentSize = newContentSize;
         _calculatedLabelSize = testLabel.frame.size;
         [self scrollingAnimationMethod];
-        [NSTimer scheduledTimerWithTimeInterval:_scrollDuration + 0.1 target:self selector:@selector(scrollingAnimationMethod) userInfo:nil repeats:YES];
+        if (_scrollBehavior != DOMarqueeScrollNone) {
+            [NSTimer scheduledTimerWithTimeInterval:_scrollDuration + 0.1 target:self selector:@selector(scrollingAnimationMethod) userInfo:nil repeats:YES];
+        }
+        
     }
     return self;
 }
@@ -44,6 +47,9 @@
     UILabel *label = [[UILabel alloc] init];
     label.text = _textLabel;
     label.font = _customFont;
+    if (_textColor) {
+        label.textColor = _textColor;
+    }
     
     switch (_scrollBehavior) {
         case DOMarqueeScrollFromRightToLeft:{
@@ -100,6 +106,19 @@
                                                       [label removeFromSuperview];
                                                   }];
                              }];
+            break;
+        }
+        case DOMarqueeScrollNone:{
+            self.contentSize = self.frame.size;
+            label.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+            label.backgroundColor = [UIColor clearColor];
+            label.textAlignment = 1;
+            [self addSubview:label];
+            double delayInSeconds = _scrollDuration;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [label removeFromSuperview];
+            });
             break;
         }
         default:
